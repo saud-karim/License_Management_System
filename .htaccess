@@ -1,12 +1,8 @@
 # License Management System Configuration
 
-# Increase file upload limits
-php_value upload_max_filesize 10M
-php_value post_max_size 20M
-php_value max_file_uploads 20
-php_value max_execution_time 300
-php_value max_input_time 300
-php_value memory_limit 256M
+# -------------------------
+# PHP Settings (safe for both mod_php and PHP-FPM)
+# -------------------------
 
 # Security settings
 Options -Indexes
@@ -14,18 +10,27 @@ DirectoryIndex index.php index.html
 
 # Enable compression for better performance
 <IfModule mod_deflate.c>
-    AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript text/xml application/xml application/xml+rss text/plain
+    AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript text/xml application/xml application/xml+rss text/plain application/json image/svg+xml application/font-woff2
 </IfModule>
 
-# Cache settings for images
+# Cache settings for static files
 <IfModule mod_expires.c>
     ExpiresActive On
+    # Images
     ExpiresByType image/jpg "access plus 1 month"
     ExpiresByType image/jpeg "access plus 1 month"
     ExpiresByType image/png "access plus 1 month"
     ExpiresByType image/gif "access plus 1 month"
+    # CSS & JS
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
 </IfModule>
 
-# Error pages
-ErrorDocument 404 /License_Management_System/404.php
-ErrorDocument 403 /License_Management_System/403.php 
+# Custom Error Pages
+# If this .htaccess is inside /License_Management_System/ directory:
+#ErrorDocument 404 /License_Management_System/404.php
+#ErrorDocument 403 /License_Management_System/403.php
+
+# If this .htaccess is inside the root of the project (same level as index.php), use instead:
+ErrorDocument 404 /404.php
+ErrorDocument 403 /403.php
