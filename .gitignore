@@ -1,3 +1,7 @@
+#ignore 
+/assests/uploads
+/config/*.php
+/vendor/
 # Temporary and debug files
 debug_*.php
 test_*.php
